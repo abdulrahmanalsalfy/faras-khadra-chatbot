@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فرص خضراء - المساعد الذكي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+
+        <header>     
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="فرص خضراء" class="logo">
+                       <h1>🌿  فرص خضراء</h1>
+      <p class="subtitle">المساعد الذكي للفرص المتاحة</p>
+        </header>
+
+        <main>
+            <div class="welcome-card">
+                <span class="icon">🤖</span>
+                <h2>مرحباً بك في المساعد الذكي!</h2>
+                <p>أنا هنا لمساعدتك في العثور على الفرص المتاحة. اسألني عن:</p>
+                <ul class="topics">
+                    <li>🎓 <strong>المنح الدراسية</strong> — فرص التمويل الدراسي</li>
+                    <li>💼 <strong>الوظائف</strong> — فرص العمل المتاحة</li>
+                    <li>🌱 <strong>التدريب</strong> — برامج التدريب والتطوير</li>
+                    <li>📌 <strong>فرص مميزة</strong> — فرص وتدريبات مختارة</li>
+                </ul>
+                <p class="hint">💡 جرب: "هل توجد منح دراسية متاحة؟"</p>
+            </div>
+
+            <div class="chat-section">
+                <div class="chat-box" id="chat-box">
+                    <div class="message bot">
+                        <div class="avatar">🤖</div>
+                        <div class="bubble">
+                            مرحباً! أنا مساعد فرص خضراء. كيف يمكنني مساعدتك اليوم؟
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-bar">
+                    <span class="faq-label">أسئلة سريعة</span>
+                    <div class="faq-buttons">
+                        <button class="faq-btn faq-green" data-question="هل توجد منح دراسية متاحة؟">
+                            🌱 المنح المتاحة
+                        </button>
+                        <button class="faq-btn faq-blue" data-question="هل توجد وظائف شاغرة؟">
+                            💼 الوظائف الشاغرة
+                        </button>
+                        <button class="faq-btn faq-orange" data-question="ما هي برامج التدريب المتاحة؟">
+                            📚 برامج التدريب
+                        </button>
+                    </div>
+                </div>
+                <form class="chat-form" id="chat-form" onsubmit="return false;">
+                    <input
+                        type="text"
+                        id="user-input"
+                        placeholder="اكتب سؤالك هنا..."
+                        autocomplete="off"
+                    >
+                    <button type="submit" id="send-btn">إرسال</button>
+                </form>
+
+                
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2026 فرص خضراء — جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const form = document.getElementById('chat-form');
+        const input = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar';
+            avatar.textContent = sender === 'user' ? '👤' : '🤖';
+
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.textContent = text;
+
+            div.appendChild(avatar);
+            div.appendChild(bubble);
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function sendMessage(message) {
+            if (!message) return;
+            input.value = message;
+            addMessage(message, 'user');
+            input.value = '';
+            sendBtn.disabled = true;
+            sendBtn.textContent = '...';
+            try {
+                const res = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                const data = await res.json();
+                addMessage(data.reply, 'bot');
+            } catch (err) {
+                addMessage('⚠️ حدث خطأ في الاتصال بالخادم.', 'bot');
+            }
+            sendBtn.disabled = false;
+            sendBtn.textContent = 'إرسال';
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            sendMessage(input.value.trim());
+        });
+
+        document.querySelectorAll('.faq-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                sendMessage(this.dataset.question);
+            });
+        });
+    </script>
+</body>
+</html>
