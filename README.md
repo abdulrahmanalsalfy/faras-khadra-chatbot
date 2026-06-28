@@ -92,6 +92,7 @@ faras-khadra-chatbot/
 ```bash
 git clone https://github.com/abdulrahmanalsalfy/faras-khadra-chatbot.git
 cd faras-khadra-chatbot
+
 2️⃣ إنشاء بيئة افتراضية
 bash
 python -m venv venv
@@ -101,13 +102,16 @@ Windows:
 
 bash
 venv\Scripts\activate
+
 macOS / Linux:
 
 bash
 source venv/bin/activate
+
 3️⃣ تثبيت المكتبات المطلوبة
 bash
 pip install -r requirements.txt
+
 4️⃣ إعداد مفتاح Gemini API
 احصل على مفتاح مجاني من: Google AI Studio
 
@@ -116,13 +120,16 @@ pip install -r requirements.txt
 env
 GEMINI_API_KEY=AIzaSyD-xxxxxxxxxxxxxxxxx
 GEMINI_MODEL=gemini-2.0-flash
+
 5️⃣ تشغيل التطبيق
 bash
 python app.py
+
 ثم افتح المتصفح على الرابط:
 
 text
 http://127.0.0.1:5000
+
 🤖 كيفية استخدام المساعد
 أسئلة مقترحة
 السؤال	النتيجة
@@ -130,6 +137,7 @@ http://127.0.0.1:5000
 ما هي الوظائف المتاحة	عرض الوظائف الشاغرة
 هل هناك تدريب	عرض البرامج التدريبية
 أعطني كل الفرص	عرض جميع الفرص
+
 
 I
 📊 مقتطف من البيانات
@@ -143,10 +151,10 @@ json
   "deadline": "2026-09-30",
   "eligibility": "معدل لا يقل عن 85% في الثانوية العامة"
 }
-📸 لقطة من الواجهة
-(يمكنك إضافة صورة هنا لاحقاً)
 
-https://screenshot.png
+
+
+---
 
 👨‍💻 المطور
 عبدالرحمن السلفي
