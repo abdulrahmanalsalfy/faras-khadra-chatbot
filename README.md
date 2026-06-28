@@ -26,6 +26,26 @@
 
 ---
 
+## 🛡️ الميزات الأمنية
+
+تم تنفيذ عدد من الممارسات الأمنية لحماية التطبيق والمستخدمين:
+
+### 1. Rate Limiter (تحديد عدد الطلبات)
+- يسمح بـ **10 طلبات في الدقيقة** لكل عنوان IP.
+- يمنع الاستخدام المفرط للـ API ويحمي من هجمات **DoS**.
+
+```python
+# utils/rate_limiter.py
+def is_rate_limited(ip: str, limit: int = 10, window: int = 60) -> bool:
+    now = time.time()
+    requests[ip] = [t for t in requests[ip] if now - t < window]
+    if len(requests[ip]) >= limit:
+        return True
+    requests[ip].append(now)
+    return False
+
+---
+
 ## 📂 هيكل المشروع
 faras-khadra-chatbot/
 │
@@ -56,7 +76,7 @@ faras-khadra-chatbot/
 └── logs/
 └── app.log # سجل الطلبات
 
-text
+
 
 ---
 
@@ -105,12 +125,8 @@ http://127.0.0.1:5000
 ما هي الوظائف المتاحة	عرض الوظائف الشاغرة
 هل هناك تدريب	عرض البرامج التدريبية
 أعطني كل الفرص	عرض جميع الفرص
-🛡️ ميزات الأمان
-الميزة	الوظيفة
-Rate Limiter	10 طلبات في الدقيقة لكل مستخدم
-Input Validator	منع النصوص الطويلة والهجمات (XSS)
-Logging	تسجيل كل طلب مع IP والتوقيت
-معالجة الأخطاء	رسائل ودية عند فشل API
+
+I
 📊 مقتطف من البيانات
 json
 {
